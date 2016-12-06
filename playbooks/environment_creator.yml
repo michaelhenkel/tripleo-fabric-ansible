@@ -1,7 +1,11 @@
 ---
 - hosts: 
-   - localhost
+   - all
   roles:
    - fabric_creator
+  vars_files:
+    - vars/networks.yml
+    - vars/nics.yml
+
 #   - libvirt_setup
 #   - environment_setup

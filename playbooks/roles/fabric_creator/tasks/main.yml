@@ -1,4 +1,7 @@
 ---
-- name: debug statement
+- name: networks
   debug: 
-    msg: hello
+    var: networks
+- name: nics
+  debug: 
+    var: nics
