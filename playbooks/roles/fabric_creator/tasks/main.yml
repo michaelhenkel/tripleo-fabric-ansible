@@ -1,7 +1,11 @@
 ---
-- name: networks
-  debug: 
-    var: networks
-- name: nics
-  debug: 
-    var: nics
+#- name: create OVS bridges and virsh networks
+#  include: ovs_virsh.yml
+#  when: item['type'] == 'phy' or item['type'] == 'bridge'
+#  with_items: "{{ nics }}"
+
+- name: create virsh defs
+  include: virsh.yml
+  with_indexed_items: "{{ virtual_machines }}"
+  loop_control:
+    loop_var: vm_item

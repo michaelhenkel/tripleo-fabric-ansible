@@ -1,0 +1,17 @@
+---
+
+#- name: create virsh files
+#  virt: name="{{ vm_item.1['name'] }}_{{ item }}"
+#        command=define
+#        xml="{{ lookup('template', 'vm.xml.j2') }}"
+#  with_sequence: count="{{ vm_item.1['count'] | int }}"
+
+#- name: attach nics
+#  include: attach_nic.yml
+#  with_sequence: count="{{ vm_item.1['count'] | int}}"
+
+- name: set prov net mac
+  include: set_mac.yml
+  with_sequence: count="{{ vm_item.1['count'] | int}}"
+#  command: "virsh dumpxml {{ vm_item.1['name'] }}_{{ item }} |grep "source network='brbm'" -B1 |head -1 |awk -F "'" '{print $2}'"
+#  register: mac

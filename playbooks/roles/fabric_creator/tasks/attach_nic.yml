@@ -1,0 +1,7 @@
+---
+
+- command: "virsh attach-interface --domain {{ vm_item.1['name'] }}_{{ item }} --type network --source {{ nic_item['br_name'] }} --model virtio --config"
+  when: nic_item['type'] == 'phy' or nic_item['type'] == 'bridge'
+  with_items: "{{ nics }}"
+  loop_control:
+    loop_var: nic_item

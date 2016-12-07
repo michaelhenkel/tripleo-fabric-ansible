@@ -1,11 +1,13 @@
 ---
 - hosts: 
-   - all
+   - kvm
   roles:
    - fabric_creator
   vars_files:
-    - vars/networks.yml
     - vars/nics.yml
+    - vars/networks.yml
 
-#   - libvirt_setup
-#   - environment_setup
+- hosts:
+  - localhost
+  roles:
+  - instack_env_creator

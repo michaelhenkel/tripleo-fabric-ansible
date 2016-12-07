@@ -1,0 +1,19 @@
+---
+- name: "create ovs bridge {{ item['br_name'] }}"
+  openvswitch_bridge: bridge="{{ item['br_name'] }}" state=present
+
+- name: "create vxlan interface {{ item['vxlan_name'] }}"
+  vxlan: 
+    ifname: "{{ item['vxlan_name'] }}" 
+    mcast_group: "{{ item['mcast_group'] }}" 
+    vxlan_link: "{{ phy_int }}" 
+    vni: "{{ item['vni'] }}"
+  register: result
+
+- name: "add interface {{ item['vxlan_name'] }} to bridge {{ item['br_name'] }}"
+  openvswitch_port: bridge="{{ item['br_name'] }}" port="{{ item['vxlan_name'] }}" state=present
+  register: portaddresult
+
+- name: "create virsh net {{ item['br_name'] }}"
+  virt_net: command=define name="{{ item['br_name'] }}" autostart=yes state=active xml='{{ lookup("template", "virsh-net.xml.j2") }}'
+

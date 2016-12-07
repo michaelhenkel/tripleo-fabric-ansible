@@ -1,0 +1,30 @@
+- name: control
+  type: vm
+  hosts: 
+    - 10.87.64.31
+    - 10.87.64.32
+    - 10.87.64.33
+- name: compute
+  type: vm
+  hosts: 
+    - 10.87.64.31
+    - 10.87.64.32
+    - 10.87.64.33
+- name: contrailcontroller
+  type: vm
+  hosts: 
+    - 10.87.64.31
+    - 10.87.64.32
+    - 10.87.64.33
+- name: contrailanalytics
+  type: vm
+  hosts: 
+    - 10.87.64.31
+    - 10.87.64.32
+    - 10.87.64.33
+- name: contrailanalyticsdatabase
+  type: vm
+  hosts: 
+    - 10.87.64.31
+    - 10.87.64.32
+    - 10.87.64.33

@@ -1,6 +1,10 @@
-[localhost]
-localhost
-#[kvm]
-#10.87.64.31
-#10.87.64.32
-#10.87.64.33
+[instack]
+localhost ansible_user=mhenkel
+[kvm]
+5b3s30 ansible_host=10.87.64.31 vms=5
+centos ansible_host=10.87.64.32 vms=5
+5b3s32 ansible_host=10.87.64.33 vms=5
+[undercloud]
+192.168.122.27
+[kvm:vars]
+ansible_user=root

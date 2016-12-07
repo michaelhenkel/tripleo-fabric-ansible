@@ -1,0 +1,10 @@
+---
+
+#- debug: var=hostvars[item]
+#- include: create_instackenv.yml
+#  with_items: "{{ groups['kvm'] }}"
+#  loop_control:
+#    loop_var: kvm_item
+- template:
+    src: instackenv.json.j2
+    dest: /tmp/instackenv.json  

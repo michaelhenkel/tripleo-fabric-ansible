@@ -1,0 +1,3 @@
+---
+
+- debug: var=hostvars[item]['virtual_machines']

@@ -1,0 +1,12 @@
+---
+virtual_machines:
+  - name: control
+    count: 1
+  - name: compute
+    count: 2
+  - name: contrailcontroller
+    count: 1
+  - name: contrailanalytics
+    count: 1
+  - name: contrailanalyticsdatabase
+    count: 1

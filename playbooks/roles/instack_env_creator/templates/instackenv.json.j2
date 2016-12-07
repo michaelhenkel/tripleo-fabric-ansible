@@ -1,0 +1,29 @@
+{
+  "arch": "x86_64",
+  "host-ip": "192.168.122.1",
+  "power_manager": "nova.virt.baremetal.virtual_power_driver.VirtualPowerManager",
+  "seed-ip": "",
+  "ssh-key": "-----BEGIN RSA PRIVATE KEY-----\nMIIEowIBAAKCAQEAxb2tDB93nHO2hTz9WOO8UlQ0wcymvcW1VKOSZZqQgV0yfGmh\nq5DvJu4I+XZIgZip5vCR+D54NY307upESkwGMLkLb4O9tJXhe9Ovz9cc+YPHdoaZ\n6gl7a+P33grjBwLHUaBdYE5naC39c0NTXS0jyCxiCyYPaKhoNrvJ7/iX/3ptnKQb\nLxq/XTQL+efHYdGKlzYdxrKShuMgXX4RsK43Kmv8wekgJqAI1qY+awvK25yzqqcZ\ndpJXlOdSRKBrOjCvx4Xr57h5tPQBMpWVTx9CW23J5XfkPMUpVcVbNVXjY/pdotfW\n9VLjDIvkpVyAp3ZDOQ/TWoKUNFdUvNkOiwL3NQIDAQABAoIBAEnbJG0ou6Yl2gA9\n3Wp79PTTGrlf1M+Ars+kIKPubRbEVnz9fzLzeT+THKsAMOimup7VL9AGlSN7mAY8\nXbFaX92G3+yQyiRO7t8vG7WHZP0U6UUt1QMC86RCi2vVqSIPOZ8VRIsZ/al9s/J/\nLP3aREkZuqzrVEoEzJfU4AHPWgZDbJNvyJ1TiFU8txuHnyzznUPVQ+f0dCcu7JXX\n2xNXEE4jHZr0xxc/ra++phOBtQNVBRkAxNo9aqYuyKqzK9l0VHmuM8EGFQJoNWB3\nqrVC3B5l+y2HyE+tlrhOZf8vuqj2kpy9jghWvNfr0plKbS1qKb6A21Dz2bVRZ4q1\n5TD736kCgYEA/xekO9l0fgXnqD/jPUWUZeXQPkyYOXW9JPxkQUoz/6NQiREYCqDQ\nNSc6LzRoBo/wSHI1Gwx5HRQWTPw64KfvpnlsbIAOh/CmDWsMki7lBIBw1mLGHBhj\nedpnpqgK5RkIEAdlbcghOxyVbGbCOlXmXlE9zgAoQvZOZk2zLPd2nWsCgYEAxnHL\nTt83oVHkEvxGO0o/Vlrm09BGsLZA/OXwPi4FjAotdsPDZ26w1uQ7vl5c5TqFfP/d\n7PrxtR8OvK+qDw0osKOO7iAWpfr31x3OTA2ITzQCOgal7HWPfS2gssycXG6IrZSV\noGXZcA/VOkGwBfBDqVPkEu4N/Dl2oXWYoaVGRd8CgYAwCQ6nKoKyPIBsAWPUJOcV\n7RmysY+0ukQc0945ITT7fZBrzyk8zx2F9NYTD4ZLPg2cRs1TQ50G6cJtSs33gggx\nzAmrwM17schDHJZobKY5m8ojxMPThJAu4P7Ftj0e+QC4q/vgmWAQlohYulz2yTgx\nKJE/2m26dlE7GISWAh928wKBgHrUcqgmKDPVEVvjBMGsKloUN+4Ba8/zb3RaCwMh\nz1Mn9Y4ei/OYoyLP8F7b35oPSBLf+Qi3JycZyzBldtiMJ5R2GIEyIXKpTgC7tTaD\n5cxIf9xUwx0Cg0dTF7W0SlA4JqdyYc7/W8AuPKgrgn2agvbrMy+4Y7WsB87WkBv1\nxfJ3AoGBANjb6conbOXrlCGqT6ugG70a7edsSHUo5i3DtyipQGlRu2wjvY9EiNVM\ndbXer1Ksm50BF15pgmFnAKzvkpxIoLcSmEKI6AHLcgZuhNYBxS+DoOjVRmldIfka\nXQM3NxC4fThu5K3afbrA958JI2HYUwG8T/vuq0fASQe/pObFgJds\n-----END RSA PRIVATE KEY-----\n",
+  "ssh-user": "root",
+  "nodes": [
+{% for kvm_host in groups['kvm'] %}
+{% for vm in hostvars[kvm_host]['vm_list'] %}
+{% for key, value in vm.iteritems() %}
+    {
+      "mac": [
+        "{{ value['mac'] }}"
+      ],
+      "cpu": "4",
+      "memory": "16384",
+      "disk": "50",
+      "arch": "x86_64",
+      "pm_user": "root",
+      "pm_addr": "{{ value['ip'] }}",
+      "pm_password": "{{ value['id_rsa'] | replace("\n", "\\n") }}",
+      "pm_type": "pxe_ssh"
+    },
+{% endfor %}
+{% endfor %}
+{% endfor %}
+  ]
+}
