@@ -43,11 +43,11 @@ The virsh VMs are defined in inventory/group_vars/kvm.yml
 ➜  tripleo-fabric-ansible git:(master) ✗ cat inventory/group_vars/kvm.yml
 ---
 virtual_machines:
-  - name: control # defines the ironic node name and must match the nova flavor used
+  - name: control # defines the ironic node name and must match the nova flavor used in tripleo
     count: 1 # specifies the number of virsh VMs PER KVM host 
-             # (in this example: 3 KVM hosts * 1 control = 3 control node vms in ironic)
+             # example: 3 KVM hosts * 1 control = 3 control vms in ironic
   - name: compute
-    count: 2
+    count: 2 # example: 3 KVM hosts * 1 compute = 6 compute vms in ironic 
   - name: contrail-controller
     count: 1
   - name: contrail-analytics
@@ -101,3 +101,5 @@ nics:
     id: 40
     network: management
 ```
+The above example adds 3 nics to the VM. nic 1 is assinged to the control_plane and nic 2 to the internal_api network.    
+nic 3 is used to bind a linux bridge to it. On that bridge nic 4 to 6 are defined as vlan interfaces.    
