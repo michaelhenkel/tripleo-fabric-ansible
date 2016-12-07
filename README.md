@@ -43,7 +43,7 @@ The virsh VMs are defined in inventory/group_vars/kvm.yml
 ➜  tripleo-fabric-ansible git:(master) ✗ cat inventory/group_vars/kvm.yml
 ---
 virtual_machines:
-  - name: # name: defines the ironic node name and must match the nova flavor used
+  - name: control # defines the ironic node name and must match the nova flavor used
     count: 1 # specifies the number of virsh VMs PER KVM host 
              # (in this example: 3 KVM hosts * 1 control = 3 control node vms in ironic)
   - name: compute
