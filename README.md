@@ -10,6 +10,7 @@ Functions:
 
 Prerequisites:    
 - Ansible 2.2 on the machine running the ansible scripts    
+- python-pyroute2 on KVM hosts
 - KVM hosts must be CentOS/RHEL >= 7.2 or Ubuntu >= 16.04    
 - libvirtd on the KVM hosts must be configured to allow tcp connections without requiring TLS    
 
