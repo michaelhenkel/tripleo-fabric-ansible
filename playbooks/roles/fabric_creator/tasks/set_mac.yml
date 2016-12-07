@@ -7,10 +7,12 @@
 - set_fact:
     vm_name: "{{ vm_item.1['name'] }}_{{ item }}"
 
+- set_fact:
+    profile_name: "{{ vm_item.1['name'] }}"
 
 - name: "getting id_rsa"
   shell: "cat {{ id_rsa_path }}"
   register: id_rsa
 
 - set_fact:
-    vm_list: "{{ vm_list|default([]) + [{ vm_name: { 'mac':mac.stdout, 'ip':ansible_host, 'id_rsa':id_rsa.stdout, 'hostname':ansible_hostname } }] }}"
+    vm_list: "{{ vm_list|default([]) + [{ vm_name: { 'mac':mac.stdout, 'ip':ansible_host, 'id_rsa':id_rsa.stdout, 'hostname':ansible_hostname, 'profile':profile_name } }] }}"

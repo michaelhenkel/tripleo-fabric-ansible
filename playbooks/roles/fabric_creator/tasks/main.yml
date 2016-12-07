@@ -1,8 +1,8 @@
 ---
-#- name: create OVS bridges and virsh networks
-#  include: ovs_virsh.yml
-#  when: item['type'] == 'phy' or item['type'] == 'bridge'
-#  with_items: "{{ nics }}"
+- name: create OVS bridges and virsh networks
+  include: ovs_virsh.yml
+  when: item['type'] == 'phy' or item['type'] == 'bridge'
+  with_items: "{{ nics }}"
 
 - name: create virsh defs
   include: virsh.yml

@@ -14,6 +14,7 @@
         "{{ value['mac'] }}"
       ],
       "name": "{{ key }}_at_{{ value['hostname'] }}",
+      "capabilities" : "profile:{{ value['profile'] }}",
       "cpu": "4",
       "memory": "16384",
       "disk": "50",

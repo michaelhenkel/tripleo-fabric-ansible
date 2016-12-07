@@ -4,9 +4,9 @@ virtual_machines:
     count: 1
   - name: compute
     count: 2
-  - name: contrailcontroller
+  - name: contrail-controller
     count: 1
-  - name: contrailanalytics
+  - name: contrail-analytics
     count: 1
-  - name: contrailanalyticsdatabase
+  - name: contrail-analytics-database
     count: 1

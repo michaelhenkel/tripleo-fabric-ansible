@@ -1,23 +1,23 @@
 ---
 
-#- name: create qcow2 files
-#  shell: "qemu-img create -f qcow2 /var/lib/libvirt/images/{{ vm_item.1['name'] }}_{{ item }}.qcow2 +51G"
-#  with_sequence: count="{{ vm_item.1['count'] | int }}"
-#
+- name: create qcow2 files
+  shell: "qemu-img create -f qcow2 /var/lib/libvirt/images/{{ vm_item.1['name'] }}_{{ item }}.qcow2 +51G"
+  with_sequence: count="{{ vm_item.1['count'] | int }}"
+
 #- name: undefine existing vms
 #  virt: name="{{ vm_item.1['name'] }}_{{ item }}"
 #        command=undefine
 #  with_sequence: count="{{ vm_item.1['count'] | int }}"
-#
-#- name: create virsh files
-#  virt: name="{{ vm_item.1['name'] }}_{{ item }}"
-#        command=define
-#        xml="{{ lookup('template', 'vm.xml.j2') }}"
-#  with_sequence: count="{{ vm_item.1['count'] | int }}"
-#
-#- name: attach nics
-#  include: attach_nic.yml
-#  with_sequence: count="{{ vm_item.1['count'] | int}}"
+
+- name: create virsh files
+  virt: name="{{ vm_item.1['name'] }}_{{ item }}"
+        command=define
+        xml="{{ lookup('template', 'vm.xml.j2') }}"
+  with_sequence: count="{{ vm_item.1['count'] | int }}"
+
+- name: attach nics
+  include: attach_nic.yml
+  with_sequence: count="{{ vm_item.1['count'] | int}}"
 
 - name: set prov net mac
   include: set_mac.yml
