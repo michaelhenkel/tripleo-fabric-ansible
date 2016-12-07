@@ -27,6 +27,9 @@ Configuration:
 ➜  inventory git:(master) ✗ cat hosts
 [instack]
 localhost ansible_user=root
+#  |
+#  V
+# the host on which the resulting instackenv.json will be created. 
 [kvm]
 5b3s30 ansible_host=10.87.64.31 vms=5 phy_int=l3 id_rsa_path=/root/.ssh/id_rsa
 centos ansible_host=10.87.64.32 vms=5 phy_int=l3 id_rsa_path=/home/stack/.ssh/id_rsa_virt_power
