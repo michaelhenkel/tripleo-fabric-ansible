@@ -1,13 +1,16 @@
 ---
 
-- shell: "virsh domiflist {{ vm_item.1['name'] }}_{{ item }} |grep brbm | awk '{print $5}'"
+- name: "getting mac of {{ vm_item.1['name'] }}_{{ item }}"
+  shell: "virsh domiflist {{ vm_item.1['name'] }}_{{ item }} |grep brbm | awk '{print $5}'"
   register: mac
 
 - set_fact:
     vm_name: "{{ vm_item.1['name'] }}_{{ item }}"
 
-- shell: "cat /root/.ssh/id_rsa"
+
+- name: "getting id_rsa"
+  shell: "cat {{ id_rsa_path }}"
   register: id_rsa
 
 - set_fact:
-    vm_list: "{{ vm_list|default([]) + [{ vm_name: { 'mac':mac.stdout, 'ip':ansible_host, 'id_rsa':id_rsa.stdout } }] }}"
+    vm_list: "{{ vm_list|default([]) + [{ vm_name: { 'mac':mac.stdout, 'ip':ansible_host, 'id_rsa':id_rsa.stdout, 'hostname':ansible_hostname } }] }}"

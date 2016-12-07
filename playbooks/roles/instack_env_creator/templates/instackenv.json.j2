@@ -13,6 +13,7 @@
       "mac": [
         "{{ value['mac'] }}"
       ],
+      "name": "{{ key }}_at_{{ value['hostname'] }}",
       "cpu": "4",
       "memory": "16384",
       "disk": "50",
@@ -22,11 +23,14 @@
       "pm_password": "{{ value['id_rsa'] | replace("\n", "\\n") }}",
       "pm_type": "pxe_ssh"
     }
+{% endfor %}
 {% if not loop.last %}
     ,
 {% endif %}
 {% endfor %}
-{% endfor %}
+{% if not loop.last %}
+    ,
+{% endif %}
 {% endfor %}
   ]
 }
