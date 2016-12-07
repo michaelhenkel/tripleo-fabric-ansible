@@ -17,8 +17,12 @@ Known Restrictions:
 - Before running existing virsh VMs must be undefined    
 
 # Usage
+Get code:    
 ```
+git clone https://github.com/michaelhenkel/tripleo-fabric-ansible
+cd tripleo-fabric-ansible
 ```
+Configuration:    
 ```
 ➜  inventory git:(master) ✗ cat hosts
 [instack]
@@ -32,3 +36,10 @@ centos ansible_host=10.87.64.32 vms=5 phy_int=l3 id_rsa_path=/home/stack/.ssh/id
 [kvm:vars]
 ansible_user=root
 ```
+[instack]
+localhost ansible_user=root -> the host on which the resulting instackenv.json will be created.
+
+[kvm] -> this section contains all KVM hosts    
+5b3s30 ansible_host=10.87.64.31 phy_int=l3 id_rsa_path=/root/.ssh/id_rsa
+  |                     |           |                 |
+  V                     V           V                 V
