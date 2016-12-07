@@ -14,6 +14,23 @@
   openvswitch_port: bridge="{{ item['br_name'] }}" port="{{ item['vxlan_name'] }}" state=present
   register: portaddresult
 
-- name: "create virsh net {{ item['br_name'] }}"
-  virt_net: command=define name="{{ item['br_name'] }}" autostart=yes state=active xml='{{ lookup("template", "virsh-net.xml.j2") }}'
+- name: "create virsh net {{ item['br_name'] }} definition"
+  template:
+    src: virsh-net.xml.j2
+    dest: "/tmp/virsh-net_{{ item['br_name'] }}.xml"
 
+- name: "define virsh net {{ item['br_name'] }}"
+  virt_net: 
+    command: define 
+    name: "{{ item['br_name'] }}" 
+    xml: '{{ lookup("template", "virsh-net.xml.j2") }}'
+
+- name: "set virsh net {{ item['br_name'] }} autostart"
+  virt_net: 
+    autostart: yes
+    name: "{{ item['br_name'] }}"
+
+- name: "set virsh net {{ item['br_name'] }} active"
+  virt_net: 
+    state: active
+    name: "{{ item['br_name'] }}"

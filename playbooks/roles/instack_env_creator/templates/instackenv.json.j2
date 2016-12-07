@@ -21,7 +21,10 @@
       "pm_addr": "{{ value['ip'] }}",
       "pm_password": "{{ value['id_rsa'] | replace("\n", "\\n") }}",
       "pm_type": "pxe_ssh"
-    },
+    }
+{% if not loop.last %}
+    ,
+{% endif %}
 {% endfor %}
 {% endfor %}
 {% endfor %}

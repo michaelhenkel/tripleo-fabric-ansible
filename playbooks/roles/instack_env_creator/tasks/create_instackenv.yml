@@ -1,4 +1,0 @@
-
----
-
-- debug: msg="{{ hostvars[kvm_item]['vm_list'] }}"
