@@ -24,25 +24,81 @@ cd tripleo-fabric-ansible
 ```
 Configuration:    
 ```
-➜  inventory git:(master) ✗ cat hosts
+➜  tripleo-fabric-ansible git:(master) ✗ cat hosts
 [instack]
 localhost ansible_user=root
-#  |
-#  V
 # the host on which the resulting instackenv.json will be created. 
 [kvm]
-5b3s30 ansible_host=10.87.64.31 vms=5 phy_int=l3 id_rsa_path=/root/.ssh/id_rsa
-centos ansible_host=10.87.64.32 vms=5 phy_int=l3 id_rsa_path=/home/stack/.ssh/id_rsa_virt_power
-5b3s32 ansible_host=10.87.64.33 vms=5 phy_int=l3 id_rsa_path=/root/.ssh/id_rsa
-[undercloud]
-192.168.122.27
+# this section contains all KVM hosts
+# phy_int = interface used for the VxLAN connections
+# id_rsa_path = path to key used for remote libvirtd connection
+5b3s30 ansible_host=10.87.64.31 phy_int=l3 id_rsa_path=/root/.ssh/id_rsa
+centos ansible_host=10.87.64.32 phy_int=l3 id_rsa_path=/home/stack/.ssh/id_rsa_virt_power
+5b3s32 ansible_host=10.87.64.33 phy_int=l3 id_rsa_path=/root/.ssh/id_rsa
 [kvm:vars]
 ansible_user=root
 ```
-[instack]
-localhost ansible_user=root -> the host on which the resulting instackenv.json will be created.
 
-[kvm] -> this section contains all KVM hosts    
-5b3s30 ansible_host=10.87.64.31 phy_int=l3 id_rsa_path=/root/.ssh/id_rsa
-  |                     |           |                 |
-  V                     V           V                 V
+The virsh VMs are defined in inventory/group_vars/kvm.yml
+```
+➜  tripleo-fabric-ansible git:(master) ✗ cat inventory/group_vars/kvm.yml
+---
+virtual_machines:
+# name: defines the ironic node name and must match the nova flavor used
+  - name: control
+# count: specifies the number of virsh VMs PER KVM host (in this example: 3 KVM hosts * 1 control = 3 control node vms in ironic)
+    count: 1
+  - name: compute
+    count: 2
+  - name: contrail-controller
+    count: 1
+  - name: contrail-analytics
+    count: 1
+  - name: contrail-analytics-database
+    count: 1
+```
+
+The nic definition file must match the nic heat templates on the undercloud
+```
+➜  tripleo-fabric-ansible git:(master) ✗ cat playbooks/vars/nics.yml
+---
+nics:
+  - name: nic1
+    vxlan_name: vxlan0
+    type: phy
+    network: control_plane
+    br_name: brbm
+    gateway: true
+    mcast_group: 239.0.0.1
+    vni: 42
+  - name: nic2
+    vxlan_name: vxlan1
+    type: phy
+    network: internal_api
+    br_name: br-int-api
+    gateway: false
+    mcast_group: 239.0.0.2
+    vni: 43
+  - name: nic3
+    vxlan_name: vxlan2
+    type: bridge
+    br_name: br-mgmt
+    mcast_group: 239.0.0.3
+    vni: 44
+  - name: nic4
+    type: vlan
+    id: 10
+    network: external_api
+  - name: nic5
+    type: vlan
+    id: 20
+    network: storage
+  - name: nic6
+    type: vlan
+    id: 30
+    network: storage_mgmt
+  - name: nic7
+    type: vlan
+    id: 40
+    network: management
+```

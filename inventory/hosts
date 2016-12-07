@@ -1,10 +1,8 @@
 [instack]
 localhost ansible_user=mhenkel
 [kvm]
-5b3s30 ansible_host=10.87.64.31 vms=5 phy_int=l3 id_rsa_path=/root/.ssh/id_rsa
-centos ansible_host=10.87.64.32 vms=5 phy_int=l3 id_rsa_path=/home/stack/.ssh/id_rsa_virt_power
-5b3s32 ansible_host=10.87.64.33 vms=5 phy_int=l3 id_rsa_path=/root/.ssh/id_rsa
-[undercloud]
-192.168.122.27
+5b3s30 ansible_host=10.87.64.31 phy_int=l3 id_rsa_path=/root/.ssh/id_rsa
+centos ansible_host=10.87.64.32 phy_int=l3 id_rsa_path=/home/stack/.ssh/id_rsa_virt_power
+5b3s32 ansible_host=10.87.64.33 phy_int=l3 id_rsa_path=/root/.ssh/id_rsa
 [kvm:vars]
 ansible_user=root
