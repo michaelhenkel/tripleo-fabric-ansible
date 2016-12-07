@@ -147,3 +147,55 @@ Network layout:
 |               IP FABRIC              |
 +--------------------------------------+
 ```
+
+# Run    
+```
+➜  tripleo-fabric-ansible git:(master) ✗ ansible-playbook -i inventory playbooks/environment_creator.yml
+```
+
+# Result
+```
+➜  tripleo-fabric-ansible git:(master) ✗ ll /tmp/instackenv.json
+-rw-r--r--  1 mhenkel  935    38K Dec  7 22:06 /tmp/instackenv.json
+```
+
+The instackenv.json file must be copied to the undercloud VM and imported with    
+```
+openstack baremetal import instackenv.json
+```
+after that ironic should have all nodes registered:
+```
+[stack@instack ~]$ ironic node-list
++--------------------------------------+-----------------------------------------+---------------+-------------+--------------------+-------------+
+| UUID                                 | Name                                    | Instance UUID | Power State | Provisioning State | Maintenance |
++--------------------------------------+-----------------------------------------+---------------+-------------+--------------------+-------------+
+| 81fd154e-2a03-4561-a339-345f53a9f1bb | control_1_at_5b3s30                     | None          | power off   | available          | False       |
+| 42b2006b-8c94-4e4c-b8be-7e35183d6c73 | compute_1_at_5b3s30                     | None          | power off   | available          | False       |
+| 8fe1ba2e-9c11-482f-bced-5bba5a26f5ab | compute_2_at_5b3s30                     | None          | power off   | available          | False       |
+| a9e64fd1-e62f-4fb5-bb61-d1dae765e8fc | contrail-controller_1_at_5b3s30         | None          | power off   | available          | False       |
+| adea96c8-e3ec-4f69-ba16-d56830d59d77 | contrail-analytics_1_at_5b3s30          | None          | power off   | available          | False       |
+| 34905810-6c9b-4f71-8b00-a56b09a8a73f | contrail-analytics-database_1_at_5b3s30 | None          | power off   | available          | False       |
+| eb6a5ccc-15b5-4dca-bcb5-6553f42c2767 | control_1_at_centos                     | None          | power off   | available          | False       |
+| 6f0b629f-3909-446a-b46c-270c00d5fbb4 | compute_1_at_centos                     | None          | power off   | available          | False       |
+| 949ee869-e35a-480d-82b1-cb6e260d2154 | compute_2_at_centos                     | None          | power off   | available          | False       |
+| 3f6e48d9-43d7-42df-bc04-9a5ed81301c1 | contrail-controller_1_at_centos         | None          | power off   | available          | False       |
+| 5c22cfd1-1ca1-48dc-9245-059786034267 | contrail-analytics_1_at_centos          | None          | power off   | available          | False       |
+| 8bd2c6c9-08af-426c-a30e-0c33877089d8 | contrail-analytics-database_1_at_centos | None          | power off   | available          | False       |
+| fda9b876-f210-46e4-81d6-981bc798bd9f | control_1_at_5b3s32                     | None          | power off   | available          | False       |
+| 3efed294-f6d7-4ade-ab50-714346e2f8ad | compute_1_at_5b3s32                     | None          | power off   | available          | False       |
+| 6bd0a12b-6d0a-4a9a-9dc5-25a98d215598 | compute_2_at_5b3s32                     | None          | power off   | available          | False       |
+| bd52e355-15d6-4e2b-af44-a731c2f49ca2 | contrail-controller_1_at_5b3s32         | None          | power off   | available          | False       |
+| 729988c0-90b2-497b-8c9c-de70ad3dc4ca | contrail-analytics_1_at_5b3s32          | None          | power off   | available          | False       |
+| a6dfe15a-e26a-49d4-ac24-03059c5eca14 | contrail-analytics-database_1_at_5b3s32 | None          | power off   | available          | False       |
++--------------------------------------+-----------------------------------------+---------------+-------------+--------------------+-------------+
+```
+Picking a node shows the associated profile:
+```
+[stack@instack ~]$ openstack baremetal node show a6dfe15a-e26a-49d4-ac24-03059c5eca14 -c properties
++------------+---------------------------------------------------------------------------------------------------------------+
+| Field      | Value                                                                                                         |
++------------+---------------------------------------------------------------------------------------------------------------+
+| properties | {u'memory_mb': u'16384', u'cpu_arch': u'x86_64', u'local_gb': u'50', u'cpus': u'4', u'capabilities':          |
+|            | u'profile:contrail-analytics-database,cpu_vt:true,cpu_hugepages:true,boot_option:local'}                      |
++------------+---------------------------------------------------------------------------------------------------------------+
+```
