@@ -24,7 +24,7 @@ cd tripleo-fabric-ansible
 ```
 # Configuration:    
 ```
-➜  tripleo-fabric-ansible git:(master) ✗ cat hosts
+➜  tripleo-fabric-ansible git:(master) ✗ cat inventory/hosts
 [instack]
 localhost ansible_user=root
 # the host on which the resulting instackenv.json will be created. 
